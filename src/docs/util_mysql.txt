@@ -1,0 +1,3 @@
+# Ajustar o valor do auto-increment 
+
+alter table estilo auto_increment = 5

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://http://www.ultraq.net.nz/thymeleaf/layout">
+	
+<head>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+	<title>Brewer</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/vendors.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/algaworks.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/layout/stylesheets/application.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/brewer.css}"/>
+
+	<link rel="shortcut icon" th:href="@{/images/favicon.png}"/>
+
+</head>
+<body>
+
+<div class="aw-layout-page">
+	
+	<!-- Cabeçalho -->
+	<div th:replace="layout/fragmentos/BarraNavegacao :: navbar"></div>
+
+	<!-- Menu Lateral Esquerdo -->
+	<aside class="aw-layout-sidebar  js-sidebar">
+		<div th:replace="layout/fragmentos/MenuEsquerdo :: menuEsquerdo"></div>
+	</aside>
+	
+	<!-- Conteúdo -->
+	<section class="aw-layout-content  js-content" layout:fragment="conteudo"></section>
+	
+	<!-- Rodapé -->
+	<footer class="aw-layout-footer  js-content">
+		<div class="container-fluid">
+			<span class="aw-footer-disclaimer">&copy; 2016 AlgaWorks. Todos os direitos reservados.</span>
+		</div>
+	</footer>
+
+</div>
+
+<script th:src="@{/layout/javascripts/vendors.min.js}"></script>
+<script th:src="@{/layout/javascripts/algaworks.min.js}"></script>
+<script th:src="@{/js/vendors/jquery.maskmoney.min.js}"></script>
+<script th:src="@{/js/vendors/jquery.mask.min.js}"></script>
+<script th:src="@{/js/brewer.js}"></script>
+
+<th:block layout:fragment="javascript-extra"></th:block>
+
+</body>
+</html>

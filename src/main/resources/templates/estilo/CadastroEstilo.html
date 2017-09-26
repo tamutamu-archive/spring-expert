@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout/LayoutPadrao"
+	xmlns:brewer="http://brewer.algaworks.com">
+	
+<body>
+	<section layout:fragment="conteudo">
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>
+					Cadastro de estilo
+				</h1>
+			</div>
+		</div>
+		
+		<div class="container-fluid">
+			
+			<form method="post" th:object="${estilo}" class="form-vertical  js-form-loading">
+
+				<brewer:message/>
+
+				<div class="row">
+					<div class="col-sm-8 form-group" brewer:classforerror="nome">
+						<label for="nome" class="control-label">Nome</label>
+						<input id="nome" type="text" class="form-control" th:field="*{nome}">
+					</div>
+				</div>				
+
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+				
+			</form>
+		</div>
+		
+		
+	</section>
+
+	<th:block layout:fragment="javascript-extra">
+		<script th:src="@{/js/vendors/bootstrap-notify.min.js}"></script>
+		<script th:src="@{/js/brewer-growl.js}"></script>
+		<script th:inline="javascript">
+			
+			$(function() {				
+				if([[${mensagem}]]) {
+					var brewerGrowl = new Brewer.Growl();
+					brewerGrowl.exibe('success', [[${mensagem}]]);
+				}
+			});
+			
+		</script>
+	</th:block>
+
+</body>
+</html>

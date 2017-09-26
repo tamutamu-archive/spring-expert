@@ -1,0 +1,220 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<description>Algaworks - Projeto do curso Spring Expert 2017</description>
+	<groupId>spring.expert</groupId>
+	<artifactId>brewer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<packaging>war</packaging>
+	
+	<properties>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<failOnMissingWebXml>false</failOnMissingWebXml>
+
+		<java.version>1.8</java.version>
+		<maven-compiler-pluging.version>3.2</maven-compiler-pluging.version>
+		<flyway-maven-plugin.version>4.2.0</flyway-maven-plugin.version>
+		<mysql-connector-java.version>5.1.44</mysql-connector-java.version>		
+		
+		<spring-framework.version>4.3.11.RELEASE</spring-framework.version>
+		
+		<servlet.version>4.0.0-b07</servlet.version>
+		
+		<thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
+
+		<thymeleaf-extra-data-attribute.version>2.0.1</thymeleaf-extra-data-attribute.version>
+		
+		<hibernate-validator.version>6.0.2.Final</hibernate-validator.version>
+		
+		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
+		
+		<log4j.version>2.9.0</log4j.version>
+		
+		<jcl-over-slf4j.version>1.7.25</jcl-over-slf4j.version>
+		
+		<jpa-hibernate.version>5.2.10.Final</jpa-hibernate.version>	
+		
+		<spring-data-jpa.version>1.11.7.RELEASE</spring-data-jpa.version>	
+		
+		<jackson-json-databind>2.9.1</jackson-json-databind>
+		
+		<thumbnailator.version>0.4.8</thumbnailator.version>
+		
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-pluging.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway-maven-plugin.version}</version>
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring-framework.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+	
+		<!-- Spring MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<!-- Servlet API -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+			<scope>provided</scope>
+		</dependency>	
+		
+		<!-- Thymeleaf -->
+		<dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf-spring4</artifactId>
+		    <version>${thymeleaf.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Bean Validation / Hibernate Validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- Thymeleaf - Layout Dialect -->
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		    <version>${thymeleaf-layout-dialect.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Thymeleaf - Extra data attribute -->		
+		<dependency>
+		    <groupId>com.github.mxab.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-data-attribute</artifactId>
+		    <version>${thymeleaf-extra-data-attribute.version}</version>
+		    <scope>compile</scope>
+		</dependency>		
+		
+		<!-- LogJ -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>${log4j.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>${log4j.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j.version}</version>
+		    <scope>compile</scope>
+		</dependency>		
+
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>${jcl-over-slf4j.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- JPA / Hibernate -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		    <version>${jpa-hibernate.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Hibernate - Java 8 Support -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-java8</artifactId>
+		    <version>${jpa-hibernate.version}</version>
+		    <scope>compile</scope>		    
+		</dependency>
+
+		<!-- MySQL Driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Spring Data JPA -->
+	    <dependency>
+	        <groupId>org.springframework.data</groupId>
+	        <artifactId>spring-data-jpa</artifactId>
+	        <version>${spring-data-jpa.version}</version>
+	        <scope>compile</scope>
+	    </dependency>
+
+		<!-- Jackson - JSON -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson-json-databind}</version>
+		    <scope>compile</scope>
+		</dependency>
+
+		<!-- Thumbnailator - Redimensionar Fotos -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>${thumbnailator.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+			
+	</dependencies>
+		
+</project>

@@ -1,0 +1,12 @@
+Função para exibir mensagens de erro de validação e sucesso utilizando o bootstrap notify 
+
+
+			$(function() {
+				if([[${#fields.hasErrors('${cerveja.*}')}]]) {
+					montaGrowl('danger', [[${#fields.detailedErrors('${cerveja.*}')}]]);	
+				}
+				
+				if([[${mensagem}]]) {
+					montaGrowl('success', [[${mensagem}]]);
+				}
+			});
