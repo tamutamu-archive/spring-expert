@@ -56,10 +56,7 @@ public class CervejasController {
 		if(result.hasErrors()) {	
 			return novo(cerveja);	//foward faz o acesso direto para a view
 		}
-		
-		System.out.println(">>> Foto cerveja: " +cerveja.getFoto());
-		System.out.println(">>> Content: " +cerveja.getContentType());
-		
+				
 		cadastroCervejaService.salvar(cerveja);
 		
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");

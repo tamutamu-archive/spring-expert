@@ -1,14 +1,63 @@
 package brewer.model;
 
-public class Cliente {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
+
+import brewer.model.validation.ClienteGroupSequenceProvider;
+import brewer.model.validation.group.CnpjGroup;
+import brewer.model.validation.group.CpfGroup;
+
+@Entity
+@Table(name = "cliente")
+@GroupSequenceProvider(ClienteGroupSequenceProvider.class)
+public class Cliente implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
-	private TipoPessoa tipo;
+	
+	@NotNull(message = "Selecione o tipo de pessoa")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo_pessoa")
+	private TipoPessoa tipoPessoa;
+	
+	@NotBlank(message = "CPF/CNPJ é obrigatório")
+	@CPF(groups = CpfGroup.class)
+	@CNPJ(groups = CnpjGroup.class)
+	@Column(name = "cpf_cnpj")
 	private String cpfOuCnpj;
+	
+	@NotBlank(message = "Informe o telefone de contato")
 	private String telefone;
+	
+	@Email(message = "Informe um e-mail válido")
 	private String email;
+	
+	@Embedded
 	private Endereco endereco;
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -21,11 +70,11 @@ public class Cliente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public TipoPessoa getTipo() {
-		return tipo;
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
 	}
-	public void setTipo(TipoPessoa tipo) {
-		this.tipo = tipo;
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 	public String getCpfOuCnpj() {
 		return cpfOuCnpj;

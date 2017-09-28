@@ -1,19 +1,30 @@
 package brewer.model;
 
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+
+@Embeddable
 public class Endereco {
-	private Long codigo;
+	
+	@NotBlank
 	private String logradouro;
+	@NotBlank
 	private String numero;
 	private String complemento;
+	@NotBlank
 	private String cep; 
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "codigo_cidade")
 	private Cidade cidade;
 	
-	public Long getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
+	@Transient
+	private Estado estado;
+	
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -44,28 +55,11 @@ public class Endereco {
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
+	public Estado getEstado() {
+		return estado;
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Endereco other = (Endereco) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
-	} 
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 	
 }
