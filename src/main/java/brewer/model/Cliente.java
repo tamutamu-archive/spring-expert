@@ -14,6 +14,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -59,6 +60,7 @@ public class Cliente implements Serializable {
 	private String email;
 	
 	@Embedded
+	@Valid
 	private Endereco endereco;
 
 	@PrePersist @PreUpdate
