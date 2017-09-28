@@ -30,7 +30,7 @@ public class Cidade implements Serializable {
 	
 	@NotNull(message = "Informe o estado")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codigo_estado")
+	@JoinColumn(name = "estado")
 	@JsonIgnore								/* Jackson - serve para não mandar o objeto iniciado para o JSON */
 	private Estado estado;
 

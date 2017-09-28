@@ -1,9 +1,31 @@
 package brewer.model;
 
-public class Grupo {
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "grupo")
+public class Grupo implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	private String nome;
+
+	@ManyToMany
+	@JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(name = "grupo"), inverseJoinColumns = @JoinColumn(name = "permissao") )	
+	private List<Permissao> permissoes;
 	
 	public Long getCodigo() {
 		return codigo;
@@ -17,7 +39,12 @@ public class Grupo {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+	public List<Permissao> getPermissoes() {
+		return permissoes;
+	}
+	public void setPermissoes(List<Permissao> permissoes) {
+		this.permissoes = permissoes;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -41,5 +68,4 @@ public class Grupo {
 			return false;
 		return true;
 	}
-	
 }

@@ -1,6 +1,7 @@
 package brewer.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import brewer.controller.page.PageWrapper;
-import brewer.model.Cerveja;
 import brewer.model.Cliente;
-import brewer.model.Endereco;
-import brewer.model.Origem;
-import brewer.model.Sabor;
 import brewer.model.TipoPessoa;
 import brewer.repository.Clientes;
 import brewer.repository.Estados;
-import brewer.repository.filter.CervejaFilter;
 import brewer.repository.filter.ClienteFilter;
 import brewer.service.CadastroClienteService;
 import brewer.service.exception.CpfCnpjClienteJaCadastradoException;

@@ -19,10 +19,10 @@ public class Endereco {
 	private String cep; 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codigo_cidade")
+	@JoinColumn(name = "cidade")
 	private Cidade cidade;
 	
-	@Transient
+	@Transient			//Esse objeto não vai para o banco de dados
 	private Estado estado;
 	
 	public String getLogradouro() {

@@ -2,6 +2,7 @@ package brewer.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,12 +25,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import brewer.repository.Cidades;
 import brewer.repository.Estados;
 import brewer.repository.filter.CidadeFilter;
-import brewer.repository.filter.ClienteFilter;
 import brewer.service.CadastroCidadeService;
 import brewer.service.exception.CidadeJaExisteNoEstadoException;
 import brewer.controller.page.PageWrapper;
 import brewer.model.Cidade;
-import brewer.model.Cliente;
 
 @Controller
 @RequestMapping("/cidades")
