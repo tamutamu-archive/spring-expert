@@ -1,20 +1,32 @@
 package brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import brewer.controller.page.PageWrapper;
+import brewer.model.Cerveja;
 import brewer.model.Cliente;
 import brewer.model.Endereco;
+import brewer.model.Origem;
+import brewer.model.Sabor;
 import brewer.model.TipoPessoa;
+import brewer.repository.Clientes;
 import brewer.repository.Estados;
+import brewer.repository.filter.CervejaFilter;
+import brewer.repository.filter.ClienteFilter;
+import brewer.service.CadastroClienteService;
+import brewer.service.exception.CpfCnpjClienteJaCadastradoException;
 
 @Controller
 @RequestMapping("/clientes")
@@ -22,6 +34,12 @@ public class ClienteController {
 	
 	@Autowired
 	private Estados estados;
+	
+	@Autowired
+	private CadastroClienteService cadastroClienteService;
+	
+	@Autowired
+	private Clientes clientes;
 	
 	/* Se for get irá chamar este método */	
 	@RequestMapping("/novo")
@@ -42,8 +60,31 @@ public class ClienteController {
 			return novo(cliente);
 		}
 
+		try {
+		
+			cadastroClienteService.salvar(cliente);
+			
+		}catch (CpfCnpjClienteJaCadastradoException e) {
+			result.rejectValue("cpfOuCnpj", e.getMessage(), e.getMessage());
+			
+			return novo(cliente);
+		}
+		
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/clientes/novo");				
 	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(ClienteFilter clienteFilter, BindingResult result, 
+			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+		
+		ModelAndView mv = new ModelAndView("cliente/PesquisaCliente");
+
+				
+		PageWrapper<Cliente> paginaWrapper = new PageWrapper<>(clientes.filtrar(clienteFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		
+		return mv;
+	}	
 }

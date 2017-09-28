@@ -45,6 +45,8 @@
 		
 		<thumbnailator.version>0.4.8</thumbnailator.version>
 		
+		<guava-cache.version>23.0</guava-cache.version>
+		
 	</properties>
 
 	<build>
@@ -213,7 +215,21 @@
 			<version>${thumbnailator.version}</version>
 			<scope>compile</scope>
 		</dependency>
-
+		
+		<!-- Cache - Guava -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>${guava-cache.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+	
+		<!-- Spring Context Support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<scope>compile</scope>
+		</dependency>
 			
 	</dependencies>
 		

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,8 +24,11 @@ public class Cidade implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private Long codigo;
+	
+	@NotBlank(message = "Informe o nome da cidade")
 	private String nome; 
 	
+	@NotNull(message = "Informe o estado")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "codigo_estado")
 	@JsonIgnore								/* Jackson - serve para não mandar o objeto iniciado para o JSON */
@@ -46,6 +51,10 @@ public class Cidade implements Serializable {
 	}
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+	
+	public boolean temEstado() {
+		return this.estado != null;
 	}
 	@Override
 	public int hashCode() {
