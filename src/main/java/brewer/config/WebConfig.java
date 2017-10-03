@@ -1,17 +1,13 @@
 package brewer.config;
 
 import java.math.BigDecimal;
+
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import javax.print.attribute.standard.DateTimeAtCompleted;
-
-import org.hibernate.query.criteria.internal.expression.function.CurrentTimestampFunction;
 import org.springframework.beans.BeansException;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -32,6 +28,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -45,6 +42,7 @@ import brewer.controller.CervejasController;
 import brewer.controller.converter.CidadeConverter;
 import brewer.controller.converter.EstadoConverter;
 import brewer.controller.converter.EstiloConverter;
+import brewer.controller.converter.GrupoConverter;
 import brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
@@ -84,6 +82,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		engine.addDialect(new LayoutDialect());
 		engine.addDialect(new BrewerDialect());
 		engine.addDialect(new DataAttributeDialect());
+		engine.addDialect(new SpringSecurityDialect());
 		
 		return engine;
 	}
@@ -94,6 +93,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		conversionService.addConverter(new EstiloConverter());
 		conversionService.addConverter(new CidadeConverter());
 		conversionService.addConverter(new EstadoConverter());
+		conversionService.addConverter(new GrupoConverter());
 		
 		NumberStyleFormatter bigDecimalFormater = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormater);

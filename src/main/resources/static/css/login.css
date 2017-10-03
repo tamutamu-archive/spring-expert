@@ -1,0 +1,42 @@
+body {
+	min-height: 100vh;
+	background-color: #CCC;	
+    background-repeat: no-repeat;
+    background-size:cover;
+    -webkit-background-size: cover;
+    -moz-background-size:cover;	
+}
+
+.imageCycle1 {
+	background-image: url('https://unsplash.it/g/1024/768/?random');
+}
+
+.imageCycle2 {
+	background-image: url('../images/02.jpg');
+}
+
+.imageCycle3 {
+	background-image: url('../images/03.jpg');
+}
+
+.imageCycle4 {
+	background-image: url('../images/04.jpg');
+}
+
+.imageCycle5 {
+	background-image: url('../images/05.jpg');
+}
+
+
+.login-form {
+	margin-top: 50vh;
+	padding: 20px 30px;
+	background-color: rgba(255, 255, 255, .9);
+	
+
+	transform: translateY(-70%);
+}
+
+.login-form > row {
+	margin-bottom: 50vh;
+}

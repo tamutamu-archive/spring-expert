@@ -49,6 +49,10 @@
 		
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
 		
+		<spring-security.version>4.2.3.RELEASE</spring-security.version>
+		
+		<thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
+		
 	</properties>
 
 	<build>
@@ -238,6 +242,30 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>${commons-beanutils.version}</version>
 			<scope>compile</scope>
+		</dependency>
+
+		<!-- Spring Security Web -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${spring-security.version}</version>
+		    <scope>compile</scope>
+		</dependency>		
+
+		<!-- Spring Security Config -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${spring-security.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<!-- Thymeleaf - Extras - Spring Security 4  -->
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		    <version>${thymeleaf-extras-springsecurity4.version}</version>
+		    <scope>compile</scope>
 		</dependency>
 			
 	</dependencies>

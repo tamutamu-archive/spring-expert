@@ -8,6 +8,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import brewer.config.JPAConfig;
+import brewer.config.SecurityConfig;
 import brewer.config.ServiceConfig;
 import brewer.config.WebConfig;
 
@@ -16,7 +17,7 @@ public class AppInitalizer extends AbstractAnnotationConfigDispatcherServletInit
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		
-		return new Class<?>[] { JPAConfig.class, ServiceConfig.class };
+		return new Class<?>[] { JPAConfig.class, ServiceConfig.class, SecurityConfig.class };
 	}
 	
 	@Override
@@ -31,11 +32,7 @@ public class AppInitalizer extends AbstractAnnotationConfigDispatcherServletInit
 	
 	@Override
 	protected Filter[] getServletFilters() {
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
-		
-		return new Filter[] { characterEncodingFilter };
+		return new Filter[] {  };
 	}
 	
 	@Override

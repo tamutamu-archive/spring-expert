@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import brewer.validation.AtributoConformacao;
 
@@ -49,7 +50,7 @@ public class Usuario implements Serializable {
 	
 	private boolean ativo;
 	
-	//@NotNull(message = "Selecione pelo menos um grupo")
+	@Size(min = 1, message = "Selecione pelo menos um grupo")
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "usuario"), inverseJoinColumns = @JoinColumn(name = "grupo") )
 	private List<Grupo> grupos;
@@ -102,6 +103,11 @@ public class Usuario implements Serializable {
 	public void setConfirmacaoSenha(String confirmacaoSenha) {
 		this.confirmacaoSenha = confirmacaoSenha;
 	}
+	
+	public boolean isNovo() {
+		return codigo == null;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
