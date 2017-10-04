@@ -362,7 +362,7 @@
   display: block;
   padding: 10px 15px;
   color: #1a1a1a;
-  font-weight: 500;
+  font-weight: bold;
 }
 .aw-menu__item > a > i {
   margin-right: 6px;

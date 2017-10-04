@@ -48,8 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				.antMatchers("/cidades/nova").hasRole("CADASTRAR_CIDADE")	
-				.antMatchers("/usuarios/novo").hasRole("CADASTRAR_USUARIO")
-				.anyRequest().authenticated()	//Está deve ser a última regra antes do formLogin()
+				.antMatchers("/usuarios/**").hasRole("CADASTRAR_USUARIO")
+				.anyRequest().authenticated()	//Está deve ser a última regra antes do formLogin() 
+				//.anyRequest().denyAll() 
 				.and()
 			.formLogin()
 				.loginPage("/login")

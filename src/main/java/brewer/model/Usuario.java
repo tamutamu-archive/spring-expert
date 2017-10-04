@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -106,6 +107,11 @@ public class Usuario implements Serializable {
 	
 	public boolean isNovo() {
 		return codigo == null;
+	}
+		
+	@PreUpdate
+	private void preUpdate() {
+		this.confirmacaoSenha = this.senha;
 	}
 	
 	@Override

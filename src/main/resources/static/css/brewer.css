@@ -155,6 +155,20 @@
 	width: 80px;
 }
 
+/* Colunas - Pesquisa usuarios */
+.table-usuarios-col-nome {
+	text-align: left;
+}
+
+.table-usuarios-col-status {
+	width: 30px;	
+}
+
+
+.table-usuarios-col-acoes {
+	width: 80px;
+}
+
 /*
 ###################
 # CUSTOMIZAÇÃO DE COMPONENTES
