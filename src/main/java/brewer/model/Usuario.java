@@ -20,11 +20,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import brewer.validation.AtributoConformacao;
 
 @AtributoConformacao(atributo = "senha", atributoConfirmacao = "confirmacaoSenha", message = "Confirmação diferente da senha")
 @Entity
 @Table(name="usuario")
+@DynamicUpdate	//Update apenas nos campos que foram alterados
 public class Usuario implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
