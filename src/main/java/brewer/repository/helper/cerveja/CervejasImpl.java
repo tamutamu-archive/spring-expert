@@ -1,11 +1,8 @@
 package brewer.repository.helper.cerveja;
 
 import java.util.List;
-
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -20,7 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import brewer.dto.CervejaDTO;
 import brewer.model.Cerveja;
+import brewer.model.Origem;
 import brewer.repository.filter.CervejaFilter;
 import brewer.repository.paginacao.PaginacaoUtil;
 
@@ -88,5 +87,18 @@ public class CervejasImpl implements CervejasQueries {
 
 	private boolean isEstiloPresente(CervejaFilter filtro) {
 		return filtro.getEstilo() != null && filtro.getEstilo().getCodigo() != null;
+	}
+
+	@Override
+	public List<CervejaDTO> porSkuOuNome(String skuOuNome) {
+		
+		String jpql = "select new brewer.dto.CervejaDTO(codigo, sku, nome, origem, valor, foto) "
+			+ "from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)";
+		
+		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql, CervejaDTO.class)
+				.setParameter("skuOuNome", skuOuNome + "%")
+				.getResultList();
+		
+		return cervejasFiltradas;
 	}	
 }

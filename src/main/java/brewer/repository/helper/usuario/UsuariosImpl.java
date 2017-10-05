@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -65,25 +66,34 @@ public class UsuariosImpl implements UsuariosQueries {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
 		
 		paginacaoUtil.preparar(criteria, pageable);
-		criteria.setResultTransformer(criteria.DISTINCT_ROOT_ENTITY);
 		adicionarFiltro(filtro, criteria);
 		
-		return new PageImpl<>(criteria.list(), pageable, total(filtro));
+		List<Usuario> filtrados = criteria.list();
+		
+		/* 
+		 * Hibernate inicializa os objetos para não dar exeção de lazy proxy
+		 * por causa da paginação não teria como fazer o left outer join para inicializar os objetos
+		 */
+		
+		filtrados.forEach(u -> Hibernate.initialize(u.getGrupos()));	
+		
+		return new PageImpl<>(filtrados, pageable, total(filtro));
 	}
 
 	private void adicionarFiltro(UsuarioFilter filtro, Criteria criteria) {
 
+		
+		
 		if (filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getNome())) {
 				criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 			}
 
-			if (!StringUtils.isEmpty(filtro.getNome())) {
-				criteria.add(Restrictions.ilike("email", filtro.getNome(), MatchMode.ANYWHERE));
+			if (!StringUtils.isEmpty(filtro.getEmail())) {
+				criteria.add(Restrictions.ilike("email", filtro.getEmail(), MatchMode.ANYWHERE));
 			}
 			
-			criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
-			
+
 			if(filtro.getGrupos() != null && !filtro.getGrupos().isEmpty()) {
 				
 				List<Criterion> subqueries = new ArrayList<>();
@@ -105,6 +115,7 @@ public class UsuariosImpl implements UsuariosQueries {
 	private Long total(UsuarioFilter filtro) {
 
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		
 		adicionarFiltro(filtro, criteria);
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();		

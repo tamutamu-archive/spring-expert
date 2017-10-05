@@ -216,6 +216,16 @@
   display: block;
   padding: 20px;
 }
+
+.aw-logged-nav-user__picture {
+  display: block;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 2px;
+  border-radius: 50%;
+  border: 1px solid #d5d5d5;
+}
+
 .aw-logged-user__picture {
   display: block;
   margin: auto;
@@ -552,8 +562,8 @@ body {
 }
 .aw-label-corner {
   position: absolute;
-  top: 9px;
-  right: 4px;
+  top: 12px;
+  right: 2px;
   padding: 2px 5px;
 }
 .aw-form-control-inline-sm {
