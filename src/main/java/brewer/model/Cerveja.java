@@ -195,7 +195,7 @@ public class Cerveja {
 		return origem;
 	}
 	
-	public String getFotoOrMock() {
+	public String getFotoOuMock() {
 		return !StringUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 

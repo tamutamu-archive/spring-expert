@@ -2,6 +2,7 @@ package brewer.config;
 
 import java.math.BigDecimal;
 
+
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
@@ -43,11 +45,12 @@ import brewer.controller.converter.CidadeConverter;
 import brewer.controller.converter.EstadoConverter;
 import brewer.controller.converter.EstiloConverter;
 import brewer.controller.converter.GrupoConverter;
+import brewer.session.TabelasItensSession;
 import brewer.thymeleaf.BrewerDialect;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
-@ComponentScan(basePackageClasses = {CervejasController.class})
+@ComponentScan(basePackageClasses = {CervejasController.class, TabelasItensSession.class})
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableCaching
@@ -104,6 +107,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		//API de data do Java 8
 		DateTimeFormatterRegistrar dateTimeFormatter = new DateTimeFormatterRegistrar();
 		dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		dateTimeFormatter.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm"));
+
 		dateTimeFormatter.registerFormatters(conversionService);
 		
 		return conversionService;
@@ -134,6 +139,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		bundle.setDefaultEncoding("UTF-8");
 		
 		return bundle;
+	}
+	
+	@Bean
+	public DomainClassConverter<?> domainClassConverter() {
+		return new DomainClassConverter<FormattingConversionService>(mvcConversionService());
 	}
 	
 	@Override

@@ -1,18 +1,81 @@
 package brewer.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Venda {
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "venda")
+public class Venda implements Serializable {
 	
+	private static final long serialVersionUID = 1L; 
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
+	
+	@Column(name = "valor_frete")
+	private BigDecimal valorFrete; 
+	
+	@Column(name = "valor_desconto")
 	private BigDecimal valorDesconto;
+	
+	@Column(name = "valor_total")
 	private BigDecimal valorTotal;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusVenda status = StatusVenda.ORCAMENTO;
+	
 	private String observacao;
-	private LocalDateTime dataEntrega;
+	
+	@Column(name = "data_hora_entrega")
+	private LocalDateTime dataHoraEntrega;
+		
+	@ManyToOne
+	@JoinColumn(name = "cliente")
 	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "vendedor")
 	private Usuario vendedor;
+	
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
+	private List<ItemVenda> itensVenda;
+	
+	@Transient
+	private String uuid; 
+	
+	@Transient
+	private LocalDate dataEntrega;
+	
+	@Transient
+	private LocalTime horarioEntrega;
+	
+	public void adicionarItens(List<ItemVenda> itemVendas) {
+		this.itensVenda = itemVendas; 
+		this.itensVenda.forEach(i -> i.setVenda(this));
+	}
 	
 	public Long getCodigo() {
 		return codigo;
@@ -44,13 +107,13 @@ public class Venda {
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
 	}
-	public LocalDateTime getDataEntrega() {
-		return dataEntrega;
-	}
-	public void setDataEntrega(LocalDateTime dataEntrega) {
-		this.dataEntrega = dataEntrega;
-	}
 	
+	public LocalDateTime getDataHoraEntrega() {
+		return dataHoraEntrega;
+	}
+	public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+		this.dataHoraEntrega = dataHoraEntrega;
+	}
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -62,6 +125,48 @@ public class Venda {
 	}
 	public void setVendedor(Usuario vendedor) {
 		this.vendedor = vendedor;
+	}
+	
+	public BigDecimal getValorFrete() {
+		return valorFrete;
+	}
+	public void setValorFrete(BigDecimal valorFrete) {
+		this.valorFrete = valorFrete;
+	}
+	public StatusVenda getStatus() {
+		return status;
+	}
+	public void setStatus(StatusVenda status) {
+		this.status = status;
+	}
+	public List<ItemVenda> getItensVenda() {
+		return itensVenda;
+	}
+	public void setItensVenda(List<ItemVenda> itensVenda) {
+		this.itensVenda = itensVenda;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public LocalTime getHorarioEntrega() {
+		return horarioEntrega;
+	}
+	public void setHorarioEntrega(LocalTime horarioEntrega) {
+		this.horarioEntrega = horarioEntrega;
+	}
+	public boolean isNova() { 
+		return codigo == null;
 	}
 	@Override
 	public int hashCode() {
