@@ -2,17 +2,20 @@ var Brewer = Brewer || {};
 
 Brewer.Growl = (function() {
 	
-	function Growl() {}
+	function Growl(tipo, objeto) {
+		this.tipo = tipo;
+		this.objeto = objeto;
+	}
 	
-	Growl.prototype.exibe = function(tipo, objeto) {
+	Growl.prototype.exibe = function() {
 		
-		if(tipo === 'danger') {
-			objeto.forEach(function(erro) {
+		if(this.tipo === 'danger') {
+			this.objeto.forEach(function(erro) {
 				ExibeGrowl(erro.message, 'danger', 'glyphicon-remove');
 			});	
 		
-		}else if(tipo === 'success') {
-			ExibeGrowl(objeto, 'success', 'glyphicon-ok');		
+		}else if(this.tipo === 'success') {
+			ExibeGrowl(this.objeto, 'success', 'glyphicon-ok');		
 		}
 	}
 

@@ -27,8 +27,7 @@ public class PaginationTableTagProcessor extends AbstractElementTagProcessor {
 		IAttribute pagina = tag.getAttribute("pagina");
 		
 		model.add(modelFactory.createStandaloneElementTag("th:block", 
-				"th:replace", 
-				String.format("fragmentos/PaginacaoTabela :: paginacao(%s)", pagina.getValue())));
+				"th:replace", String.format("fragmentos/PaginacaoTabela :: paginacao(%s)", pagina.getValue())));
 		
 		structureHandler.replaceWith(model, true);
 

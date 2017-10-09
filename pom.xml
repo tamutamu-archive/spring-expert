@@ -55,6 +55,8 @@
 		
 		<junit.version>4.12</junit.version>
 		
+		<javax-mail.version>1.6.0</javax-mail.version>
+			
 	</properties>
 
 	<build>
@@ -277,7 +279,15 @@
 		    <version>${junit.version}</version>
 		    <scope>test</scope>
 		</dependency>
-
+		
+		<!-- Java Mail -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>${javax-mail.version}</version>
+			<scope>compile</scope>
+		</dependency>	
+		
 	</dependencies>
 		
 </project>

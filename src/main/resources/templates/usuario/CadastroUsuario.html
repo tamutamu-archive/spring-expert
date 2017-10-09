@@ -111,8 +111,8 @@
 			$('.js-status').bootstrapSwitch();
 			
 			if([[${mensagem}]]) {
-				var brewerGrowl = new Brewer.Growl();
-				brewerGrowl.exibe('success', [[${mensagem}]]);
+				var brewerGrowl = new Brewer.Growl('success', [[${mensagem}]]);
+				brewerGrowl.exibe();
 			}
 		});
 		
