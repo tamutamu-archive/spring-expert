@@ -2,6 +2,7 @@ package brewer.controller;
 
 import java.util.UUID;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,6 @@ import brewer.controller.page.PageWrapper;
 import brewer.controller.validator.VendaValidator;
 import brewer.mail.Mailer;
 import brewer.model.Cerveja;
-import brewer.model.Cliente;
 import brewer.model.StatusVenda;
 import brewer.model.TipoPessoa;
 import brewer.model.Venda;
@@ -92,7 +92,7 @@ public class VendasController {
 		venda.setVendedor(usuarioSistema.getUsuario());
 		
 		cadastroVendaService.salvar(venda);
-		attributes.addFlashAttribute("mensagem", "Venda salva com sucesso");
+		attributes.addFlashAttribute("mensagem", String.format("Orçamento n° %d salvo com sucesso", venda.getCodigo()));
 		
 		return new ModelAndView("redirect:/vendas/nova");
 	}
@@ -110,7 +110,7 @@ public class VendasController {
 		venda.setVendedor(usuarioSistema.getUsuario());
 		
 		cadastroVendaService.emitir(venda);
-		attributes.addFlashAttribute("mensagem", "Venda emitida com sucesso");
+		attributes.addFlashAttribute("mensagem", String.format("Venda n° %d emitida com sucesso", venda.getCodigo()));
 		
 		return new ModelAndView("redirect:/vendas/nova");
 	}
@@ -126,11 +126,12 @@ public class VendasController {
 		
 		venda.setVendedor(usuarioSistema.getUsuario());
 		
-		cadastroVendaService.salvar(venda);
+		
+		venda = cadastroVendaService.emitir(venda);
 		
 		mailer.enviar(venda);
 		
-		attributes.addFlashAttribute("mensagem", "Venda emitida e enviada por e-mail com sucesso");
+		attributes.addFlashAttribute("mensagem", String.format("Venda n° %d emitida e enviada por e-mail com sucesso", venda.getCodigo()));
 		
 		return new ModelAndView("redirect:/vendas/nova");
 	}

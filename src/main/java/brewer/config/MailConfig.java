@@ -26,11 +26,12 @@ public class MailConfig {
 	public JavaMailSender mailSender() {
 	
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("smtp.mailgun.org");
+		mailSender.setHost(env.getProperty("smtp_host"));
 		mailSender.setPort(587);
 		mailSender.setUsername(env.getProperty("username"));
 		mailSender.setPassword(env.getProperty("password"));
 		
+		System.out.println(">>>> smtp " +env.getProperty("smtp_host"));
 		System.out.println(">>>> username: " +env.getProperty("username"));
 		System.out.println(">>>> senha: " +env.getProperty("password"));
 		

@@ -9,13 +9,19 @@ Brewer.Growl = (function() {
 	
 	Growl.prototype.exibe = function() {
 		
-		if(this.tipo === 'danger') {
+		if(this.tipo === 'dangerMultiplo') {
 			this.objeto.forEach(function(erro) {
 				ExibeGrowl(erro.message, 'danger', 'glyphicon-remove');
 			});	
 		
+		}else if(this.tipo === 'dangerSimples') 	{
+			ExibeGrowl(this.objeto,'danger', 'glyphicon-remove');
+		
 		}else if(this.tipo === 'success') {
 			ExibeGrowl(this.objeto, 'success', 'glyphicon-ok');		
+		
+		}else if(this.tipo === 'info') {
+			ExibeGrowl(this.objeto, 'info', 'glyphicon-info-sign');
 		}
 	}
 

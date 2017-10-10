@@ -74,12 +74,20 @@ public class Venda implements Serializable {
 	@Transient
 	private LocalTime horarioEntrega;
 
+	
 	private BigDecimal calcularValorTotal(BigDecimal valorTotalItens, BigDecimal valorFrete, BigDecimal valorDesconto) {
 		BigDecimal valorTotal = valorTotalItens
 				.add(Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO))
 				.subtract(Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO));
 		
 		return valorTotal;
+	}
+	
+	public BigDecimal getValorTotalItens() {
+		return getItensVenda().stream()
+				.map(ItemVenda::getValorTotal)
+				.reduce(BigDecimal::add)
+				.orElse(BigDecimal.ZERO);
 	}
 	
 	public void calcularValorTotal() {

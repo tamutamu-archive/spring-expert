@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -86,12 +87,23 @@ public class Cerveja {
 	@NotNull(message = "A origem é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
+	
+	@Transient
+	private boolean novaFoto;
 
 	@PrePersist @PreUpdate	
 	private void prePersistUpdate() {
 		sku = sku.toUpperCase();
 	}
-	
+
+	public boolean isNovaFoto() {
+		return novaFoto;
+	}
+
+	public void setNovaFoto(boolean novaFoto) {
+		this.novaFoto = novaFoto;
+	}
+
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -198,7 +210,15 @@ public class Cerveja {
 	public String getFotoOuMock() {
 		return !StringUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
-
+	
+	public boolean temFoto() {
+		return !StringUtils.isEmpty(this.foto);
+	}
+	
+	public boolean isNova() {
+		return codigo == null;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

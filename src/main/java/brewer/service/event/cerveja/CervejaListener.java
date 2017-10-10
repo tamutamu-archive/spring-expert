@@ -12,7 +12,7 @@ public class CervejaListener {
 	@Autowired
 	private FotoStorage fotoStorage;
 	
-	@EventListener(condition = "#evento.temFoto()")			//So vai executar este método se a cerveja tiver foto
+	@EventListener(condition = "#evento.temFoto() and #evento.novaFoto")			//So vai executar este método se a cerveja tiver foto
 	public void cervejaSalva(CervejaSalvaEvent evento) {
 		System.out.println("Cerveja sendo salva...");
 		

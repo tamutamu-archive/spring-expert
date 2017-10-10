@@ -18,9 +18,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-10">
-						<h1>
-							Cadastro de cerveja
-						</h1>
+						<h1 th:if="${cerveja.nova}">Cadastro de cerveja</h1>
+						<h1 th:unless="${cerveja.nova}" th:text="|Edição da cerveja ${cerveja.nome}|">Cadastro de cerveja</h1>
 					</div>
 					<div class="col-xs-2">
 						<div class="aw-page-header-controls">
@@ -35,9 +34,12 @@
 	
 		<div class="container-fluid">
 	
-			<form method="post" th:object="${cerveja}" th:action="@{/cervejas/novo}">
+			<form method="post" th:object="${cerveja}" 
+				th:action="${cerveja.nova} ? @{/cervejas/nova} : @{/cervejas/{codigo}(codigo=${cerveja.codigo})}">
 				
 				<brewer:message/>
+			
+				<input type="hidden" th:field="*{codigo}"/>
 		
 				<div class="row">
 					<div class="col-sm-2 form-group bw-required" brewer:classforerror="sku">
@@ -127,8 +129,11 @@
 				
 				<div class="row">
 					<div class="form-group  col-sm-12">
+						
 						<input type="hidden" th:field="*{foto}">
 						<input type="hidden" th:field="*{contentType}">
+						<input type="hidden" th:field="*{novaFoto}">
+						
 						<label class="control-label">Foto</label>
 						
 						<div class="js-container-foto-cerveja" th:attr="data-url-fotos=@{/fotos}">
@@ -145,7 +150,8 @@
 				</div>
 				
 				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
+					<button class="btn  btn-primary" type="submit" th:if="${cerveja.nova}">Salvar</button>
+					<button class="btn  btn-primary" type="submit" th:if="${not cerveja.nova}">Atualizar</button>
 				</div>
 		
 			</form>
@@ -160,8 +166,6 @@
 		<script th:src="@{/js/vendors/handlebars.min.js}"></script>
 		<script th:src="@{/js/vendors/uikit.min.js}"></script>
 		<script th:src="@{/js/vendors/upload.min.js}"></script>
-		<script th:src="@{/js/vendors/bootstrap-notify.min.js}"></script>
-		<script th:src="@{/js/brewer-growl.js}"></script>
 		<script th:src="@{/js/brewer-foto.js}"></script>
 		<script th:src="@{/js/estilo.cadastro-rapido.js}"></script>
 		
