@@ -120,5 +120,18 @@ public class UsuariosImpl implements UsuariosQueries {
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Usuario buscarComGrupos(Long codigo) {
+		
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		criteria.createAlias("grupos", "g", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		
+		return (Usuario)criteria.uniqueResult();
+		
+	}
 	
 }
