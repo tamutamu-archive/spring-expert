@@ -42,9 +42,7 @@ public class CadastroUsuarioService {
 			usuario.setSenha(existe.get().getSenha());
 			
 		}	
-		
-		if(!usuario.isNovo() && usuario.isAtivo())
-		
+				
 		usuario.setConfirmacaoSenha(usuario.getSenha());
 		
 		usuarios.save(usuario);

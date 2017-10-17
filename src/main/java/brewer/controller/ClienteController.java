@@ -1,6 +1,7 @@
 package brewer.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +29,7 @@ import brewer.repository.Estados;
 import brewer.repository.filter.ClienteFilter;
 import brewer.service.CadastroClienteService;
 import brewer.service.exception.CpfCnpjClienteJaCadastradoException;
+import brewer.service.exception.ImpossivelExcluirEntidadeException;
 
 @Controller
 @RequestMapping("/clientes")
@@ -105,5 +109,29 @@ public class ClienteController {
 	public ResponseEntity<Void> tratarIllegalArgumentException(IllegalArgumentException e) {
 		return ResponseEntity.badRequest().build();
 	}
+
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable("codigo") Long codigo) {
+		Cliente cliente = clientes.buscarComEndereco(codigo);
+		
+		System.out.println(">>>> " +cliente.getEndereco().getCidade().getEstado().getNome());
+		
+		ModelAndView mv = novo(cliente);
+		mv.addObject(cliente);
+		
+		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody ResponseEntity<?> excluir(@PathVariable("codigo") Cliente cliente) {
+		try {
+			cadastroClienteService.excluir(cliente);
+		
+		}catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
+	}	
 	
 }

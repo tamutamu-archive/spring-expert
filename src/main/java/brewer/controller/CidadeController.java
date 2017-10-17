@@ -2,7 +2,6 @@ package brewer.controller;
 
 import java.util.List;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -12,9 +11,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ import brewer.repository.Estados;
 import brewer.repository.filter.CidadeFilter;
 import brewer.service.CadastroCidadeService;
 import brewer.service.exception.CidadeJaExisteNoEstadoException;
+import brewer.service.exception.ImpossivelExcluirEntidadeException;
 import brewer.controller.page.PageWrapper;
 import brewer.model.Cidade;
 
@@ -110,6 +113,28 @@ public class CidadeController {
 		}
 		
 		return cidades.findByEstadoCodigo(codigoEstado);
+	}
+
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable("codigo") Long codigo) {
+		Cidade cidade = cidades.buscarComEstado(codigo);
+		
+		ModelAndView mv = novo(cidade);
+		mv.addObject(cidade);
+		
+		return mv;
+	}
+
+	@DeleteMapping("/{codigo}")
+	public @ResponseBody ResponseEntity<?> excluir(@PathVariable("codigo") Cidade cidade) {
+		try {
+			cadastroCidadeService.excluir(cidade);
+		
+		}catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		
+		return ResponseEntity.ok().build();
 	}
 	
 }

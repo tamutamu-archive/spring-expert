@@ -1,5 +1,6 @@
 package brewer.controller;
 
+import java.nio.file.AccessDeniedException;
 import java.util.UUID;
 
 
@@ -27,6 +28,7 @@ import brewer.controller.page.PageWrapper;
 import brewer.controller.validator.VendaValidator;
 import brewer.mail.Mailer;
 import brewer.model.Cerveja;
+import brewer.model.ItemVenda;
 import brewer.model.StatusVenda;
 import brewer.model.TipoPessoa;
 import brewer.model.Venda;
@@ -68,9 +70,7 @@ public class VendasController {
 	public ModelAndView nova(Venda venda) {
 		ModelAndView mv = new ModelAndView("venda/CadastroVenda");
 		
-		if(StringUtils.isEmpty(venda.getUuid())) {
-			venda.setUuid(UUID.randomUUID().toString());
-		} 
+		setUuid(venda);
 		
 		mv.addObject("itens", venda.getItensVenda());
 		mv.addObject("valorFrete", venda.getValorFrete());
@@ -99,7 +99,7 @@ public class VendasController {
 
 
 	@PostMapping(value = "/nova", params = "emitir")
-	public ModelAndView emirir(Venda venda, BindingResult result,
+	public ModelAndView emitir(Venda venda, BindingResult result,
 				RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
 		
 		validarVenda(venda, result);
@@ -135,6 +135,21 @@ public class VendasController {
 		
 		return new ModelAndView("redirect:/vendas/nova");
 	}
+	@PostMapping(value = "/nova", params = "cancelar")
+	public ModelAndView cancelar(Venda venda, BindingResult result,
+				RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+		
+		try {
+			cadastroVendaService.cancelar(venda);
+		
+		} catch (Exception e) {
+			return new ModelAndView("/403");
+		}
+		
+		attributes.addFlashAttribute("mensagem", String.format("Venda cancelada com sucesso", venda.getCodigo()));
+		
+		return new ModelAndView("redirect:/vendas/" +venda.getCodigo());
+	}
 	
 	@PostMapping("/item")
 	public ModelAndView adicionarItem(Long codigoCerveja, String uuid) {
@@ -163,9 +178,24 @@ public class VendasController {
 		
 	}
 	
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable Long codigo) {
+		Venda venda = vendas.buscarComItens(codigo);
+		
+		setUuid(venda);
+		for(ItemVenda item : venda.getItensVenda()) {
+			tabelaItens.adicionarItem(venda.getUuid(), item.getCerveja(), item.getQuantidade());
+		}
+		
+		ModelAndView mv = nova(venda);
+		mv.addObject(venda);
+
+		return mv;
+	}
+	
 	@GetMapping
 	public ModelAndView pesquisar(VendaFilter vendaFilter, BindingResult result, 
-			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+			@PageableDefault(size = 8) Pageable pageable, HttpServletRequest httpServletRequest) {
 
 		ModelAndView mv = new ModelAndView("venda/PesquisaVenda");
 
@@ -196,5 +226,11 @@ public class VendasController {
 		 */
 		
 		vendaValidator.validate(venda, result);
+	}
+	
+	private void setUuid(Venda venda) {
+		if(StringUtils.isEmpty(venda.getUuid())) {
+			venda.setUuid(UUID.randomUUID().toString());
+		} 		
 	}
 }

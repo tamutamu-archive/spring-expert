@@ -2,6 +2,7 @@ package brewer.repository.helper.cidade;
 
 import javax.persistence.EntityManager;
 
+
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
@@ -42,6 +43,16 @@ public class CidadesImpl implements CidadesQueries {
 		
 		return new PageImpl<>(criteria.list(), pageable, total(filtro));
 	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public Cidade buscarComEstado(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cidade.class);
+		
+		criteria.createAlias("estado", "e", JoinType.LEFT_OUTER_JOIN);	
+		criteria.add(Restrictions.eq("codigo", codigo));
+		return (Cidade)criteria.uniqueResult();
+	}	
 
 	private void adicionarFiltro(CidadeFilter filtro, Criteria criteria) {
 
@@ -62,5 +73,6 @@ public class CidadesImpl implements CidadesQueries {
 		adicionarFiltro(filtro, criteria);
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();		
-	}	
+	}
+
 }

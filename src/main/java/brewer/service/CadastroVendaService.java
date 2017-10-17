@@ -3,9 +3,11 @@ package brewer.service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import javax.management.RuntimeErrorException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import brewer.model.StatusVenda;
@@ -23,6 +25,10 @@ public class CadastroVendaService {
 		
 		if(venda.isNova()) {
 			venda.setDataCriacao(LocalDateTime.now());
+		
+		}else {
+			Venda vendaExistente = vendas.findOne(venda.getCodigo());
+			venda.setDataCriacao(vendaExistente.getDataCriacao());
 		}
 		
 		if(venda.getDataEntrega() != null) {
@@ -33,6 +39,14 @@ public class CadastroVendaService {
 		vendas.saveAndFlush(venda);
 		
 		return venda;
+	}
+	
+	@PreAuthorize("#venda.vendedor == principal.usuario or hasRole('CANCELAR_VENDA')")
+	@Transactional
+	public void cancelar(Venda venda) {
+		Venda vendaExistente = vendas.findOne(venda.getCodigo());
+		vendaExistente.setStatus(StatusVenda.CANCELADA);
+		vendas.save(vendaExistente);
 	}
 
 	@Transactional

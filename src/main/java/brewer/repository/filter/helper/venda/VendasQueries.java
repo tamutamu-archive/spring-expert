@@ -9,5 +9,5 @@ import brewer.repository.filter.VendaFilter;
 public interface VendasQueries {
 	
 	public Page<Venda> filtrar(VendaFilter vendaFilter, Pageable pageable);
-
+	public Venda buscarComItens(Long codigo);
 }

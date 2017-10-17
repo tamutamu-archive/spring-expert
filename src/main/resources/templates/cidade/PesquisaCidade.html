@@ -4,6 +4,7 @@
 	xmlns:layout="http://http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/LayoutPadrao}"
 	xmlns:brewer="http://brewer.algaworks.com"
+	xmlns:data="http://www.thymeleaf.org/extras/data"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	
 <body>
@@ -11,18 +12,16 @@
 
 		<div class="page-header">
 			<div class="container-fluid">
-				<div class="row">
-					<div class="col-xs-10">
-						<h1>
-							Pesquisa de cidades
-						</h1>
+				<div class="row" align="left">
+					<div class="col-md-8 col-xs-12">
+						<h1>Cidades<small style="margin-top: 1px">Cidades cadastradas no sistema</small></h1>
 					</div>
-					<div class="col-xs-2" sec:authorize-url="/cidades/nova">
-						<div class="aw-page-header-controls">	
-							<a class="btn btn-default" th:href="@{/cidades/nova}">
-								<i class="glyphicon glyphicon-plus-sign"></i> <span class="hidden-xs hidden-sm">Nova cidade</span>
-							</a>
-						</div>
+					<div class="col-md-4 col-xs-12">
+							<ol class="breadcrumb">
+							  <li><a th:href="@{/}">Dashboard</a></li>
+							  <li><a th:href="@{/cidades}">Cidades</a></li>
+							  <li class="active">Pesquisa</li>
+							</ol>
 					</div>
 				</div>
 			</div>
@@ -51,7 +50,14 @@
 				</div>				
 
 				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Pesquisar</button>
+					<button class="btn  btn-primary" type="submit">
+						<i class="fa fa-search"></i>
+						<span class="hidden-xs hidden-sm">Pesquisar</span>
+					</button>
+					
+					<a class="btn btn-primary" th:href="@{/cidades/nova}">
+						<i class="fa fa-plus"></i> <span class="hidden-xs hidden-sm">Adicionar</span>
+					</a>
 				</div>
 				
 			</form>
@@ -75,17 +81,19 @@
 	
 					<tbody>
 						<tr th:each="cidade : ${pagina.conteudo}">
-	
 							
 							<td th:text="${cidade.nome}">Rio Branco</td>
 							
 							<td class="text-right" th:text="${cidade.estado.nome}">Acre</td>
 							
-							<td class="text-center" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')">
-								<a class="btn  btn-link  btn-xs" title="Editar"> 
+							<td class="text-center" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')" >
+								<a class="btn  btn-link  btn-xs" title="Editar" th:href="@{/cidades/{codigo}(codigo=${cidade.codigo})}"> 
 									<i class="glyphicon glyphicon-pencil"></i>
 								</a>
-								<a class="btn  btn-link  btn-xs" title="Excluir">
+								
+								<a class="btn  btn-link  btn-xs js-exclusao-btn" title="Excluir"
+									data:url="@{/cidades/{codigo}(codigo=${cidade.codigo})}"
+									data:objeto="${cidade.nome}">
 									<i class="glyphicon glyphicon-remove"></i>
 								</a>
 							</td>

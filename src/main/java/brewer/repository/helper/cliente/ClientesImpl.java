@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import brewer.model.Cliente;
+import brewer.model.Venda;
 import brewer.repository.filter.ClienteFilter;
 import brewer.repository.paginacao.PaginacaoUtil;
 
@@ -44,6 +45,16 @@ public class ClientesImpl implements ClientesQueries {
 		return new PageImpl<>(criteria.list(), pageable, total(filtro));
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Cliente buscarComEndereco(Long codigo) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cliente.class);
+		criteria.createAlias("endereco.cidade", "c", JoinType.LEFT_OUTER_JOIN);
+		criteria.createAlias("c.estado", "e", JoinType.LEFT_OUTER_JOIN);
+		criteria.add(Restrictions.eq("codigo", codigo));
+		return (Cliente)criteria.uniqueResult();
+	}	
+
 	private void adicionarFiltro(ClienteFilter filtro, Criteria criteria) {
 
 		if (filtro != null) {
@@ -63,5 +74,6 @@ public class ClientesImpl implements ClientesQueries {
 		adicionarFiltro(filtro, criteria);
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();		
-	}	
+	}
+
 }

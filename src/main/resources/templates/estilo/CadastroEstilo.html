@@ -12,9 +12,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-10">
-						<h1>
-							Cadastro de estilo
-						</h1>
+						<h1 th:if="${estilo.novo}"> Cadastro de estilo </h1>
+						<h1 th:unless="${estilo.novo}"> Edição de estilo - [[${estilo.nome}]] </h1>
 					</div>
 					<div class="col-xs-2">
 						<div class="aw-page-header-controls">	
@@ -32,7 +31,9 @@
 			<form method="post" th:object="${estilo}" th:action="@{/estilos/novo}">
 
 				<brewer:message/>
-
+				
+				<input type="hidden" th:field="*{codigo}"/>
+				
 				<div class="row">
 					<div class="col-sm-8 form-group" brewer:classforerror="nome">
 						<label for="nome" class="control-label">Nome</label>

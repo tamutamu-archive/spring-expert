@@ -13,9 +13,8 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-10">
-						<h1>
-							Cadastro de clientes
-						</h1>
+						<h1 th:if="${cliente.novo}"> Cadastro de clientes </h1>
+						<h1 th:unless="${cliente.novo}"> Edição [[${cliente.nome}]] </h1>
 					</div>
 					<div class="col-xs-2">
 						<div class="aw-page-header-controls">	
@@ -33,7 +32,9 @@
 			<form method="post" th:object="${cliente}" th:action="@{/clientes/novo}" >
 				
 				<brewer:message/>
-
+				
+				<input type="hidden" th:field="*{codigo}"/>
+				
 				<div class="form-group bw-required" brewer:classforerror="nome">
 					<label for="nome" class="control-label">Nome</label>
 					<input id="nome" type="text" class="form-control" th:field="*{nome}">
@@ -103,9 +104,8 @@
 					
 					<div class="col-sm-4 form-group bw-required" >
 						<label for="estado" class="control-label">Estado</label>
-						<select id="estado" class="form-control" th:field=*{endereco.estado}>
-							<option value=""> Selecione o estado</option>
-							<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}">PR - Paraná</option>							
+						<select id="estado" class="form-control" th:field="*{endereco.cidade.estado}">
+							<option th:each="estado : ${estados}" th:value="${estado.codigo}" th:text="${estado.nome}"></option>							
 						</select>
 					</div>
 
@@ -113,8 +113,9 @@
 						<label for="cidade" class="control-label">Cidade</label>
 						<div class="bw-field-action">
 							<input type="hidden" id="codigoCidadeSelecionada" th:value="*{endereco.cidade} != null ? *{endereco.cidade.codigo}">
+							
 							<select id="cidade" class="form-control" data:url="@{/cidades}" disabled="disabled" th:field="*{endereco.cidade}">
-													
+												
 							</select>
 							
 							<div class="bw-field-action__icon js-img-loading" style="display:none">
