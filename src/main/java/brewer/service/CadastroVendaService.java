@@ -7,18 +7,23 @@ import javax.management.RuntimeErrorException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import brewer.model.StatusVenda;
 import brewer.model.Venda;
 import brewer.repository.Vendas;
+import brewer.service.event.venda.VendaEvent;
 
 @Service
 public class CadastroVendaService {
 	
 	@Autowired
 	private Vendas vendas;
+	
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	@Transactional
 	public Venda salvar(Venda venda) {
@@ -52,6 +57,9 @@ public class CadastroVendaService {
 	@Transactional
 	public Venda emitir(Venda venda) {
 		venda.setStatus(StatusVenda.EMITIDA);
+		
+		/* Evento para atualizar a quantidade de estoque */ 
+		publisher.publishEvent(new VendaEvent(venda));
 		
 		return salvar(venda);
 	}

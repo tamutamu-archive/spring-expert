@@ -17,16 +17,16 @@
 		<div class="page-header">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-10">
-						<h1 th:if="${cerveja.nova}">Cadastro de cerveja</h1>
-						<h1 th:unless="${cerveja.nova}" th:text="|Edição da cerveja ${cerveja.nome}|">Cadastro de cerveja</h1>
+					<div class="col-md-8 col-xs-12">
+						<h1 th:if="${cerveja.nova}">Cadastro<small>Adicione uma nova cerveja ao sistema</small></h1>
+						<h1 th:unless="${cerveja.nova}">[[${cerveja.nome}]] <small>[[${cerveja.descricao}]]</small></h1>
 					</div>
-					<div class="col-xs-2">
-						<div class="aw-page-header-controls">
-							<a class="btn btn-default" th:href="@{/cervejas}">
-								<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisa</span>
-							</a>
-						</div>
+					<div class="col-md-4 col-xs-12">
+						<ol class="breadcrumb">
+						  <li><a th:href="@{/}"><i class="fa fa-home"></i> Dashboard</a></li>
+						  <li><a th:href="@{/cervejas}">Cervejas</a></li>
+						  <li class="active">Cadastro</li>
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -150,8 +150,18 @@
 				</div>
 				
 				<div class="form-group">
-					<button class="btn  btn-primary" type="submit" th:if="${cerveja.nova}">Salvar</button>
-					<button class="btn  btn-primary" type="submit" th:if="${not cerveja.nova}">Atualizar</button>
+					<button class="btn  btn-primary" type="submit" th:if="${cerveja.nova}">
+						<i class="fa fa-floppy-o"></i>
+						<span class="hidden-xs hidden-sm">Adicionar</span>
+					</button>
+					<button class="btn  btn-primary" type="submit" th:if="${not cerveja.nova}">
+						<i class="fa fa-edit"></i>
+						<span class="hidden-xs hidden-sm">Atualizar</span>
+					</button>
+					<a class="btn btn-danger" th:href="@{/cervejas}">
+						<i class="fa fa-times"></i>
+						<span class="hidden-xs hidden-sm">Cancelar</span>
+					</a>					
 				</div>
 		
 			</form>

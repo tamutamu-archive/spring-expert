@@ -11,17 +11,16 @@
 		<div class="page-header">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-10">
-						<h1>
-							Cadastro de cidade
-						</h1>
+					<div class="col-md-8 col-xs-12">
+						<h1 th:if="${cidade.nova}">Cadastro de cidade<small>Adicionar uma nova cidade</small></h1>
+						<h1 th:unless="${cidade.nova}">[[${cidade.nome}]]<small>Município do estado de [[${cidade.estado.nome}]]</small></h1>
 					</div>
-					<div class="col-xs-2">
-						<div class="aw-page-header-controls">	
-							<a class="btn btn-default" th:href="@{/cidades}">
-								<i class="glyphicon glyphicon-plus-sign"></i> <span class="hidden-xs hidden-sm">Pesquisa de cidades</span>
-							</a>
-						</div>
+					<div class="col-md-4 col-xs-12">
+						<ol class="breadcrumb">
+						  <li><a th:href="@{/}">Dashboard</a></li>
+						  <li><a th:href="@{/cidades}">Cidades</a></li>
+						  <li class="active">Nova</li>
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -53,7 +52,15 @@
 				</div>				
 
 				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
+					<button class="btn  btn-primary" type="submit">
+						<i class="fa fa-floppy-o"></i>
+						<span class="hidden-xs hidden-sm">Salvar</span>
+					</button>
+					
+					<a class="btn btn-primary" th:href="@{/cidades}">
+						<i class="fa fa-search"></i> 
+						<span class="hidden-xs hidden-sm">Pesquisar</span>
+					</a>					
 				</div>
 				
 			</form>

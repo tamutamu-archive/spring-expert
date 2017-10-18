@@ -49,6 +49,7 @@ public class JPAConfig {
 		factory.setDataSource(dataSource);
 		factory.setJpaVendorAdapter(jpaVendorAdapter);
 		factory.setPackagesToScan(Cerveja.class.getPackage().getName());	//nome do pacote onde está o model
+		factory.setMappingResources("sql/consultas-nativas.xml");			//consultas nativas em arquivos externos
 		factory.afterPropertiesSet();
 		
 		return factory.getObject();

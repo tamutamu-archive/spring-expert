@@ -1,6 +1,7 @@
 package brewer.controller;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -21,11 +22,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import brewer.controller.page.PageWrapper;
 import brewer.controller.validator.VendaValidator;
+import brewer.dto.VendaMes;
+import brewer.dto.VendaOrigem;
 import brewer.mail.Mailer;
 import brewer.model.Cerveja;
 import brewer.model.ItemVenda;
@@ -207,7 +211,17 @@ public class VendasController {
 		
 		return mv;	
 	}
+	
+	@GetMapping("/totalPorMes")
+	public @ResponseBody List<VendaMes> listarTotalVendasPorMes() {
+		return vendas.totalPorMes();
+	}
 
+	@GetMapping("/porOrigem")
+	public @ResponseBody List<VendaOrigem> vendasPorNacionalidade() {
+		return this.vendas.totalPorOrigem();
+	}	
+	
 	private ModelAndView mvTabelaItensVenda(String uuid) {
 		ModelAndView mv = new ModelAndView("venda/TabelaItensVenda");
 		mv.addObject("itens", tabelaItens.getItens(uuid));

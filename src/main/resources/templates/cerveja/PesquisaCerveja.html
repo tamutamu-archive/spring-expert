@@ -16,17 +16,15 @@
 		<div class="page-header">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-10">
-						<h1>
-							Pesquisa de cervejas
-						</h1>
+					<div class="col-md-8 col-xs-12">
+						<h1>Cervejas<small>cadastradas no sistema</small></h1>
 					</div>
-					<div class="col-xs-2">
-						<div class="aw-page-header-controls">	
-							<a class="btn btn-default" th:href="@{/cervejas/nova}">
-								<i class="glyphicon glyphicon-plus-sign"></i> <span class="hidden-xs hidden-sm">Nova cerveja</span>
-							</a>
-						</div>
+					<div class="col-md-4 col-xs-12">
+						<ol class="breadcrumb">
+						  <li><a th:href="@{/}"><i class="fa fa-home"></i> Dashboard</a></li>
+						  <li><a th:href="@{/cervejas}">Cervejas</a></li>
+						  <li class="active">Pesquisa</li>
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -91,7 +89,18 @@
 				</div>
 			</div>
 			
-			<button type="submit" class="btn  btn-primary">Pesquisar</button>
+			<div class="form-group">
+				<button type="submit" class="btn  btn-primary">
+					<i class="fa fa-search"></i>
+					<span class="hidden-xs hidden-sm">Pesquisar</span>
+				</button>
+
+				<a class="btn btn-primary" th:href="@{/cervejas/nova}">
+					<i class="fa fa-plus"></i>
+					<span class="hidden-xs hidden-sm">Adicionar</span>
+				</a>
+			</div>
+			
 		</form>
 		
 		<div class="table-responsive  bw-tabela-simples">
@@ -111,6 +120,7 @@
 							<brewer:order page="${pagina}" field="nome" text="Nome"/>
 						</th>
 
+						<th >Qtde.</th>
 						<th class="table-cervejas-col-estilo">Estilo</th>
 						<th class="table-cervejas-col-origem">Origem</th>
 						<th class="table-cervejas-col-valor">Valor</th>
@@ -125,9 +135,10 @@
 						</td>
 						<td class="text-center" th:text="${cerveja.sku}">AA1234</td>
 						<td th:text="${cerveja.nome}">Cerveja Stella</td>
+						<td th:text="${cerveja.quantidadeEstoque}">5</td>
 						<td th:text="${cerveja.estilo.nome}">Lager</td>
 						<td th:text="${cerveja.origem.descricao}">Internacional</td>
-						<td class="text-right" th:text="|R$ ${cerveja.valor}|">R$ 8.00</td>
+						<td class="text-right" th:text="|R$ ${{cerveja.valor}}|">R$ 8.00</td>
 						<td class="text-center">
 							<a class="btn  btn-link  btn-xs js-tooltip"  title="Editar" 
 							th:href="@{/cervejas/{codigo}(codigo=${cerveja.codigo})}"> 

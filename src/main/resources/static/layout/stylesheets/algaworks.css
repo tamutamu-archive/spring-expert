@@ -661,6 +661,10 @@ body {
 		height: 45px;
 	}
 	
+	.page-header small {
+		display: none;
+	}
+	
 	.page-header .breadcrumb {
 		justify-content: flex-start;
 		align-items: left;	

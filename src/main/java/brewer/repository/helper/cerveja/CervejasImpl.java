@@ -1,6 +1,7 @@
 package brewer.repository.helper.cerveja;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.hibernate.Criteria;
@@ -18,10 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import brewer.dto.CervejaDTO;
+import brewer.dto.ValorItensEstoque;
 import brewer.model.Cerveja;
 import brewer.model.Origem;
 import brewer.repository.filter.CervejaFilter;
 import brewer.repository.paginacao.PaginacaoUtil;
+
 
 public class CervejasImpl implements CervejasQueries {
 
@@ -101,4 +104,12 @@ public class CervejasImpl implements CervejasQueries {
 		
 		return cervejasFiltradas;
 	}	
+
+	@Transactional(readOnly = true)
+	@Override
+	public ValorItensEstoque valorItensEstoque() {
+		String query = "select new brewer.dto.ValorItensEstoque(sum(valor * quantidadeEstoque), sum(quantidadeEstoque)) from Cerveja";
+		return manager.createQuery(query, ValorItensEstoque.class).getSingleResult();
+	}
+	
 }

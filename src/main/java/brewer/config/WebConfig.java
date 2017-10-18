@@ -116,9 +116,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		return conversionService;
 	}
 	
+	/* Forçar o locale em PT-BR */
 	@Bean
 	public LocaleResolver localeResolver() {
-		return new FixedLocaleResolver(new Locale("pt", "BR"));
+	
+		return new FixedLocaleResolver(new Locale("pt", "BR"));	
 	}
 	
 	@Bean
