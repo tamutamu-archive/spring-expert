@@ -56,6 +56,10 @@
 		<junit.version>4.12</junit.version>
 		
 		<javax-mail.version>1.6.0</javax-mail.version>
+		
+		<jasper-reports.version>6.4.3</jasper-reports.version>
+		
+		<jasper-reports-fonts.version>6.0.0</jasper-reports-fonts.version>
 			
 	</properties>
 
@@ -288,6 +292,19 @@
 		    <version>${javax-mail.version}</version>
 			<scope>compile</scope>
 		</dependency>	
+		
+		<!-- Jasper Reports -->
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>${jasper-reports.version}</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>net.sf.jasperreports</groupId>
+    		<artifactId>jasperreports-fonts</artifactId>
+		    <version>${jasper-reports-fonts.version}</version>
+		</dependency>
 		
 	</dependencies>
 		
